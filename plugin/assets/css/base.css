@@ -1,4 +1,9 @@
+* {
+  margin: 0;
+  padding: 0; }
+
 html {
-	width: 400px;
-	height: 500px;
-}
+  width: 400px;
+  height: 500px; }
+
+/*# sourceMappingURL=base.css.map */

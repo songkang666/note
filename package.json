@@ -1,0 +1,13 @@
+{
+	"name": "PK_ToDo_List",
+	"version": "0.0.1",
+	"main": "Gruntfile.js",
+	"devDependencies": {
+		"grunt": "*",
+		"grunt-contrib-sass": "~0.8.1",
+		"grunt-text-replace": "*",
+		"requirejs": "*"
+	},
+	"dependencies": {
+	}
+}
