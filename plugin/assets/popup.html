@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="todoApp">
-	<head>
-		<meta charset="utf-8">
-		<title>PK ToDo List</title>
-		<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
-		<script type="text/javascript" src="js/controller.js"></script>
-		<link rel="stylesheet" href="css/style.css"></link>
-	</head>
-	<body ng-controller="ToDoListController">
-		<div class="list">
-			<div ng-repeat="todo in todos" class="item">
-				<h3>{{todo.title}}</h3>
-				<p>{{todo.content}}</p>
-			</div>
-		</div>
-	</body>
+
+<head>
+    <meta charset="utf-8">
+    <title>PK ToDo List</title>
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="js/controller.js"></script>
+    <link rel="stylesheet" href="css/style.css"></link>
+</head>
+
+<body ng-controller="ToDoListController">
+    <div class="list">
+        <div ng-repeat="todo in todos" class="item">
+            <h3>{{todo.title}}</h3>
+            <p>{{todo.content}}</p>
+        </div>
+    </div>
+</body>
+
 </html>
