@@ -52,16 +52,14 @@ angular.module("noteApp")
                 if(key) {
                     localStorage.setItem(key, JSON.stringify(item));
                     result.data = item;
-                } else if(item.uuid) {
+                } else if(item.id) {
                     item.modified = Date.now();
-                    localStorage.setItem(item.uuid, JSON.stringify(item));
+                    localStorage.setItem(item.id, JSON.stringify(item));
                     result.data = item;
                 } else {
-                    var uuid = "xxxx";
-                    // ToDo create an uuid to item
-                    item.uuid = uuid;
+                    item.id = UUID.generate();
                     item.created = item.modified = Date.now();
-                    localStorage.setItem(item.uuid, JSON.stringify(item));
+                    localStorage.setItem(item.id, JSON.stringify(item));
                     result.data = item;
                 }
                 return result;
