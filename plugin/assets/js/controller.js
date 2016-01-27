@@ -1,6 +1,6 @@
-angular.module("todoApp")
+angular.module("noteApp")
     .controller("indexController", ["$scope", function($scope) {
-        $scope.todos = [{
+        $scope.notes = [{
             'title': '1. Nexus S',
             'content': 'Fast just got faster with Nexus S.'
         }, {

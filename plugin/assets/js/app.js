@@ -1,4 +1,4 @@
-angular.module("todoApp", ["ui.router"])
+angular.module("noteApp", ["ui.router"])
     .config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
         $stateProvider.state("index", {
