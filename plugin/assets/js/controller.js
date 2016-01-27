@@ -1,13 +1,7 @@
 angular.module("noteApp")
-    .controller("indexController", ["$scope", function($scope) {
-        $scope.notes = [{
-            'title': '1. Nexus S',
-            'content': 'Fast just got faster with Nexus S.'
-        }, {
-            'title': '2. Motorola XOOM™ with Wi-Fi',
-            'content': 'The Next, Next Generation tablet.'
-        }, {
-            'title': '3. MOTOROLA XOOM™',
-            'content': 'The Next, Next Generation tablet.'
-        }];
+    .controller("indexController", ["$scope", "localService", function($scope, Service) {
+        Service.queryAllNotes().then(function(res) {
+            $scope.notes = res.data;
+        }, function(res) {
+        });
     }]);
