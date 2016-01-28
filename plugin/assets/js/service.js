@@ -5,8 +5,10 @@ angular.module("noteApp")
 
             1. category: {
                 id: uuid,
-                name: string,
-                contains: [noteIDs]
+                title: string,
+                contains: [noteIDs],
+                created: time,
+                modified: time
             }
 
             2. categoris: [categoryIDs]
@@ -65,24 +67,48 @@ angular.module("noteApp")
                 return result;
             },
             queryAllCategories: function() {
+                var that = this;
                 var result = {
                     status: 200,
                     data: null
                 }
                 var deferred = $q.defer();
 
-                var loadedResult = this.__load(ID);
+                var loadedResult = that.__load(ID);
                 if(404 === loadedResult.status || 500 === loadedResult.status) {
                     localStorage.setItem(ID, '[]');
                     result.data = [];
-                    deferred.resolve(result);
+                    deferred.reject(result);
                 } else {
                     result.data = loadedResult.data;
                     deferred.resolve(result);
                 }
                 return deferred.promise;
             },
-            addCategory: function() {
+            addCategory: function(category) {
+                // category: {title, contains}
+                var that = this;
+                var result = {
+                    status: 200,
+                    data: null
+                }
+                var deferred = $q.defer();
+                // validate - title is a none-empty string and contains is an empty Array
+                // todo more validation
+                if(("string" !== typeof category.title) || !category.title || !(category.contains instanceof Array) || 0 !== category.contains.length) {
+                    result.status = 400;
+                    deferred.reject(result);
+                } else {
+                    var savedResult = that.__save(category);
+                    if(200 === savedResult.status) {
+                        result.data = savedResult.data;
+                        deferred.resolve(result);
+                    } else {
+                        result.status = 500;
+                        deferred.reject(result);
+                    }
+                }
+                return deferred.promise;
             },
             deleteCategory: function() {
             },
