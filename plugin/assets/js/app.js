@@ -1,4 +1,4 @@
-angular.module("noteApp", ["ui.router"])
+angular.module("noteApp", ["ui.router", "ngLodash"])
     .config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
         $stateProvider.state("index", {
