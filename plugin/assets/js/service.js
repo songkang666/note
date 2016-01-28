@@ -140,9 +140,16 @@ angular.module("noteApp")
                 var deferred = $q.defer();
 
                 var loadedResult = that.__load(ID);
-                if(404 === loadedResult.status || 500 === loadedResult.status) {
-                    localStorage.setItem(ID, '[]');
-                    result.data = [];
+                if(500 === loadedResult.status) {
+                    result.status = 500;
+                    deferred.reject(result);
+                } else if(404 === loadedResult.status) {
+                    var p = {
+                        count: 0,
+                        entries: []
+                    }
+                    localStorage.setItem(ID, JSON.stringify(p));
+                    result.data = p;
                     deferred.reject(result);
                 } else {
                     result.data = loadedResult.data;
