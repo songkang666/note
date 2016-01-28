@@ -6,12 +6,22 @@ angular.module("noteApp")
             1. category: {
                 id: uuid,
                 title: string,
-                contains: [noteIDs],
+                collection: {
+                    count: number,
+                    entries: [@note]
+                },
                 created: time,
                 modified: time
             }
+            ====== In LocalStorge ======
+            {id: uuid, title: string, collection: {count: number, entries: [noteIDs]}, created: string, modified: string}
 
-            2. categoris: [categoryIDs]
+            2. allCategoris: {
+                count: number,
+                entries: [@category]
+            }
+            ====== In LocalStorge ======
+            {count: number, entries: [categoryIDs]}
 
         */
 
@@ -66,6 +76,35 @@ angular.module("noteApp")
                 }
                 return result;
             },
+            __remove: function(key) {
+                var result = {
+                    status: 200,
+                    data: null
+                }
+                var item = localStorage.getItem(key);
+                if(!item) {
+                    result.status = 404;
+                } else {
+                    try {
+                        var p = JSON.parse(item);
+                        result.data = p;
+                    } catch(err) {
+                        result.status = 500;
+                    } finally {
+                        localStorage.removeItem(key);
+                    }
+                }
+                return result;
+            },
+            __addOneToAllCategories: function() {
+
+            },
+            __removeOneFromAllCategories: function() {
+            },
+            __addOneToCategoryContains: function() {
+            },
+            __removeOneFromCategoryContains: function() {
+            },
             queryAllCategories: function() {
                 var that = this;
                 var result = {
@@ -112,7 +151,27 @@ angular.module("noteApp")
             },
             deleteCategory: function() {
             },
-            queryCategory: function() {
+            queryCategory: function(id) {
+                var that = this;
+                var result = {
+                    status: 200,
+                    data: null
+                }
+                var deferred = $q.defer();
+                if("string" !== typeof id || !id) {
+                    result.status = 404;
+                    deferred.reject(result);
+                } else {
+                    var loadedResult = that.__load(id);
+                    if(200 !== loadedResult.status) {
+                        result.status = loadedResult.status;
+                        deferred.reject(result);
+                    } else {
+                        result.data = loadedResult.data;
+                        deferred.resolve(result);
+                    }
+                }
+                return deferred.promise;
             },
             updateCategory: function() {
             },
