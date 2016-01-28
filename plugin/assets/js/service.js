@@ -14,20 +14,37 @@ angular.module("noteApp")
                 modified: time
             }
             ====== In LocalStorge ======
-            {id: uuid, title: string, collection: {count: number, entries: [noteIDs]}, created: string, modified: string}
+            id => {
+                id: uuid,
+                title: string,
+                collection: {
+                    count: number,
+                    entries: [noteIDs]
+                },
+                created: string,
+                modified: string
+            }
 
             2. allCategoris: {
                 count: number,
                 entries: [@category]
             }
             ====== In LocalStorge ======
-            {count: number, entries: [categoryIDs]}
+            ID => {count: number, entries: [categoryIDs]}
 
         */
 
         /* note's data structure
 
             1. note: {
+                id: uuid,
+                title: string,
+                content: string,
+                created: time,
+                modified: time
+            }
+            ====== In LocalStorge ======
+            id => {
                 id: uuid,
                 title: string,
                 content: string,
@@ -97,7 +114,6 @@ angular.module("noteApp")
                 return result;
             },
             __addOneToAllCategories: function() {
-
             },
             __removeOneFromAllCategories: function() {
             },
