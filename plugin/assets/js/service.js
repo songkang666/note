@@ -8,7 +8,12 @@ angular.module("noteApp")
                 title: string,
                 collection: {
                     count: number,
-                    entries: [@note]
+                    entries: [{
+                        id: uuid, // @note except content
+                        title: string,
+                        created: time,
+                        modified: time
+                    }]
                 },
                 created: time,
                 modified: time
@@ -27,7 +32,12 @@ angular.module("noteApp")
 
             2. allCategoris: {
                 count: number,
-                entries: [@category]
+                entries: [{
+                    id: uuid, // @category except collection
+                    title: string,
+                    created: time,
+                    modified: time
+                }]
             }
             ====== In LocalStorge ======
             ID => {count: number, entries: [categoryIDs]}
