@@ -235,7 +235,27 @@ angular.module("noteApp")
                 }
                 return deferred.promise;
             },
-            deleteCategory: function() {
+            deleteCategory: function(id) {
+                var that = this;
+                var result = {
+                    status: 200,
+                    data: null
+                }
+                var deferred = $q.defer();
+                if("string" !== typeof id || !id) {
+                    result.status = 404;
+                    deferred.reject(result);
+                } else {
+                    var removedResult = that.__remove(id);
+                    if(200 === removedResult.status) {
+                        result.data = removedResult.data;
+                        deferred.resolve(result);
+                    } else {
+                        result.status = removedResult.status;
+                        deferred.reject(result);
+                    }
+                }
+                return deferred.promise;
             },
             queryCategory: function(id) {
                 var that = this;
