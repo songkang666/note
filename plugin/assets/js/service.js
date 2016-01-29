@@ -1,5 +1,5 @@
 angular.module("noteApp")
-    .factory("localService", ["$q", function($q) {
+    .factory("localService", ["$q", "lodash", function($q, lodash) {
         "use strict";
         /* category's data structure
 
@@ -78,7 +78,7 @@ angular.module("noteApp")
                         result.data = JSON.parse(item);
                     } catch(err) {
                         localStorage.removeItem(key);
-                        result.status = 500;
+                        result.status = 404;
                     }
                 }
                 return result;
@@ -123,13 +123,33 @@ angular.module("noteApp")
                 }
                 return result;
             },
-            __addOneToAllCategories: function() {
+            __addOneToAllCategories: function(id) {
+                var that = this;
+                var result = {
+                    status: 200,
+                    data: null
+                }
+                var loadedResult = that.__load(ID);
+                // todo if else status
+                loadedResult.data.entries.push(id);
+                loadedResult.data.count += 1;
+                that.__save(loadedResult.data, ID);
             },
-            __removeOneFromAllCategories: function() {
+            __removeOneFromAllCategories: function(id) {
+                var that = this;
+                var result = {
+                    status: 200,
+                    data: null
+                }
+                var loadedResult = that.__load(ID);
+                // todo if else status
+                lodash.remove(loadedResult.data.entries, id);
+                loadedResult.data.count -= 1;
+                that.__save(loadedResult.data, ID);
             },
-            __addOneToCategoryContains: function() {
+            __addOneToCategoryCollection: function(categoryID, noteID) {
             },
-            __removeOneFromCategoryContains: function() {
+            __removeOneFromCategoryCollection: function(categoryID, noteID) {
             },
             queryAllCategories: function() {
                 var that = this;
@@ -140,9 +160,22 @@ angular.module("noteApp")
                 var deferred = $q.defer();
 
                 var loadedResult = that.__load(ID);
-                if(500 === loadedResult.status) {
-                    result.status = 500;
-                    deferred.reject(result);
+                if(200 === loadedResult.status) {
+                    // loadedResult.data: {count: number, entries: [categoryIDs]}
+                    var data = {count: 0, entries: []};
+                    loadedResult.data.entries.forEach(function(categoryID, index) {
+                        var p = that.__load(categoryID);
+                        if(200 === p.status) {
+                            var x = lodash.pick(p.data, ["id", "title", "created", "modified"]);
+                            data.count += 1;
+                            data.entries.push(x);
+                        } else {
+                            that.__removeOneFromAllCategories(categoryID);
+                            // todo if else status
+                        }
+                    });
+                    result.data = data;
+                    deferred.resolve(result);
                 } else if(404 === loadedResult.status) {
                     var p = {
                         count: 0,
@@ -152,8 +185,8 @@ angular.module("noteApp")
                     result.data = p;
                     deferred.reject(result);
                 } else {
-                    result.data = loadedResult.data;
-                    deferred.resolve(result);
+                    result.status = 400;
+                    deferred.reject(result);
                 }
                 return deferred.promise;
             },
@@ -196,12 +229,25 @@ angular.module("noteApp")
                     deferred.reject(result);
                 } else {
                     var loadedResult = that.__load(id);
-                    if(200 !== loadedResult.status) {
+                    if(200 === loadedResult.status) {
+                        // loadedResult.data: {id, title, collection: {count, entries: [noteIDs]}, created, modified}
+                        var data = lodash.pick(loadedResult.data, ["id", "title", "created", "modified"]);
+                        data.collection = {count: 0, entries: []};
+                        loadedResult.data.collection.entries.forEach(function(noteID, index) {
+                            var p = that.__load(noteID);
+                            if(200 === p.status) {
+                                var x = lodash.pick(p.data, ["id", "title", "created", "modified"]);
+                                data.collection.count += 1;
+                                data.collection.entries.push(x);
+                            } else {
+                                that.__removeOneFromCategoryCollection(id, noteID);
+                            }
+                        });
+                        result.data = data;
+                        deferred.resolve(result);
+                    } else {
                         result.status = loadedResult.status;
                         deferred.reject(result);
-                    } else {
-                        result.data = loadedResult.data;
-                        deferred.resolve(result);
                     }
                 }
                 return deferred.promise;
