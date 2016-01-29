@@ -148,8 +148,28 @@ angular.module("noteApp")
                 that.__save(loadedResult.data, ID);
             },
             __addOneToCategoryCollection: function(categoryID, noteID) {
+                var that = this;
+                var result = {
+                    status: 200,
+                    data: null
+                }
+                var loadedResult = that.__load(categoryID);
+                // todo if else status
+                loadedResult.data.collection.entries.push(noteID);
+                loadedResult.data.collection.count += 1;
+                that.__save(loadedResult.data, categoryID);
             },
             __removeOneFromCategoryCollection: function(categoryID, noteID) {
+                var that = this;
+                var result = {
+                    status: 200,
+                    data: null
+                }
+                var loadedResult = that.__load(categoryID);
+                // todo if else status
+                lodash.remove(loadedResult.data.collection.entries, noteID);
+                loadedResult.data.collection.count -= 1;
+                that.__save(loadedResult.data, categoryID);
             },
             queryAllCategories: function() {
                 var that = this;
