@@ -211,21 +211,29 @@ angular.module("noteApp")
                 return deferred.promise;
             },
             addCategory: function(category) {
-                // category: {title, contains}
+                // category: {title, collection}
                 var that = this;
                 var result = {
                     status: 200,
                     data: null
                 }
                 var deferred = $q.defer();
-                // validate - title is a none-empty string and contains is an empty Array
+                // validate title - title is a none-empty string
+                // validate collection - collection's entries is an empty Array and collection's count is 0
                 // todo more validation
-                if(("string" !== typeof category.title) || !category.title || !(category.contains instanceof Array) || 0 !== category.contains.length) {
+                if(("string" !== typeof category.title) || !category.title
+                    || !category.collection
+                    || !(category.collection.entries instanceof Array)
+                    || 0 !== category.collection.entries.length
+                    || 0 !== category.collection.count)
+                {
                     result.status = 400;
                     deferred.reject(result);
                 } else {
                     var savedResult = that.__save(category);
                     if(200 === savedResult.status) {
+                        that.__addOneToAllCategories(savedResult.data.id);
+                        // ToDo __addOne... status
                         result.data = savedResult.data;
                         deferred.resolve(result);
                     } else {
@@ -292,7 +300,44 @@ angular.module("noteApp")
                 }
                 return deferred.promise;
             },
-            updateCategory: function() {
+            updateCategory: function(category) {
+                // category: {id, title, collection}
+                var that = this;
+                var result = {
+                    status: 200,
+                    data: null
+                }
+                var deferred = $q.defer();
+                // validate id - id is a none-empty string
+                // validate title - title is a none-empty string
+                // validate collection - entries is an Array and its length equal to count
+                // todo more validation
+                if(("string" !== typeof category.id) || !category.id
+                    || ("string" !== typeof category.title) || !category.title
+                    || !category.collection
+                    || !(category.collection.entries instanceof Array)
+                    || category.collection.count !== category.collection.entries.length)
+                {
+                    result.status = 400;
+                    deferred.reject(result);
+                } else {
+                    var data = lodash.pick(category, ["id", "title", "created", "modified"]);
+                    data.collection = {
+                        count: category.collection.count,
+                        entries: lodash.map(category.collection.entries, function(entry) {return entry.id})
+                    }
+                    var savedResult = that.__save(data);
+                    if(200 === savedResult.status) {
+                        // update category with saved data
+                        category.modified = savedResult.data.modified;
+                        result.data = category;
+                        deferred.resolve(result);
+                    } else {
+                        result.status = 500;
+                        deferred.reject(result);
+                    }
+                }
+                return deferred.promise;
             },
             queryAllNotes: function(category) {
                 var deferred = $q.defer();
