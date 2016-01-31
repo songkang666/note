@@ -218,7 +218,7 @@ angular.module("noteApp")
                 }
                 var deferred = $q.defer();
                 // validate title - title is a none-empty string
-                if(("string" !== typeof category.title) || category.title.length < 1) {
+                if(("string" !== typeof title) || title.length < 1) {
                     result.status = 400;
                     deferred.reject(result);
                 } else {
