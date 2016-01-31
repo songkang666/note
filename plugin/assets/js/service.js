@@ -210,8 +210,7 @@ angular.module("noteApp")
                 }
                 return deferred.promise;
             },
-            addCategory: function(category) {
-                // category: {title, collection}
+            addCategory: function(title) {
                 var that = this;
                 var result = {
                     status: 200,
@@ -219,17 +218,18 @@ angular.module("noteApp")
                 }
                 var deferred = $q.defer();
                 // validate title - title is a none-empty string
-                // validate collection - collection's entries is an empty Array and collection's count is 0
-                // todo more validation
-                if(("string" !== typeof category.title) || !category.title
-                    || !category.collection
-                    || !(category.collection.entries instanceof Array)
-                    || 0 !== category.collection.entries.length
-                    || 0 !== category.collection.count)
-                {
+                if(("string" !== typeof category.title) || category.title.length < 1) {
                     result.status = 400;
                     deferred.reject(result);
                 } else {
+                    var category = {
+                        title: title,
+                        collection: {
+                            count: 0,
+                            entries: []
+                        }
+                    }
+                    // category: {title, collection}
                     var savedResult = that.__save(category);
                     if(200 === savedResult.status) {
                         that.__addOneToAllCategories(savedResult.data.id);
