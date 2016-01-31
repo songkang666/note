@@ -1,1 +1,13 @@
-note.html
+    <div class="note-list">
+        <div class="note-item btn btn-default" ng-click="createNote();">
+            +
+        </div>
+        <div ng-repeat="item in category.collection.entries" class="note-item" ng-click="showNote(item);">
+            <h4>{{item.title}}</h4>
+            <span>{{item.content}}</span>
+        </div>
+    </div>
+    <div>
+        <h3>{{note.title}}</h3>
+        <span>{{note.content}}</span>
+    </div>

@@ -24,7 +24,8 @@ angular.module("noteApp", ["ui.router", "ngLodash"])
                 controller: "categoriesAllController"
             })
             .state({
-                name: "categories.detail",
+                name: "category",
+                parent: "categories",
                 url: "/:id",
                 templateUrl: "view/category.html",
                 resolve: {
@@ -36,38 +37,16 @@ angular.module("noteApp", ["ui.router", "ngLodash"])
                 controller: "categoryController"
             })
             .state({
-                name: "createNote",
-                url: "/createNote/:id",
-                templateUrl: "view/createNote.html",
-                resolve: {
-                    Service: "localService",
-                    getCategory: function(Service, $q, $stateParams) {
-                        if("none" === $stateParams.id) {
-                            var deferred = $q.defer();
-                            console.log("yyy");
-                            deferred.resolve({
-                                status: 200,
-                                data: {
-                                    id: null,
-                                    title: null
-                                }
-                            });
-                            return deferred.promise;
-                        } else {
-                            return Service.queryCategory($stateParams.id);
-                        }
-                    }
-                },
-                controller: "createNoteController"
-            })
-            .state({
                 name: "note",
-                url: "/note/:id",
+                url: "/category/:categoryID/note/:noteID",
                 templateUrl: "view/note.html",
                 resolve: {
                     Service: "localService",
+                    getCategory: function(Service, $stateParams) {
+                        return Service.queryCategory($stateParams.categoryID);
+                    },
                     getNote: function(Service, $stateParams) {
-                        return Service.queryNote($stateParams.id);
+                        return Service.queryNote($stateParams.noteID);
                     }
                 },
                 controller: "noteController"

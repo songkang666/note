@@ -147,7 +147,7 @@ angular.module("noteApp")
                 loadedResult.data.count -= 1;
                 that.__save(loadedResult.data, ID);
             },
-            __addOneToCategoryCollection: function(categoryID, noteID) {
+            __addOneToCategory: function(noteID, categoryID) {
                 var that = this;
                 var result = {
                     status: 200,
@@ -159,7 +159,7 @@ angular.module("noteApp")
                 loadedResult.data.collection.count += 1;
                 that.__save(loadedResult.data, categoryID);
             },
-            __removeOneFromCategoryCollection: function(categoryID, noteID) {
+            __removeOneFromCategory: function(noteID, categoryID) {
                 var that = this;
                 var result = {
                     status: 200,
@@ -217,7 +217,7 @@ angular.module("noteApp")
                     data: null
                 }
                 var deferred = $q.defer();
-                // validate title - title is a none-empty string
+                // validate title - title is a not-empty string
                 if(("string" !== typeof title) || title.length < 1) {
                     result.status = 400;
                     deferred.reject(result);
@@ -308,16 +308,15 @@ angular.module("noteApp")
                     data: null
                 }
                 var deferred = $q.defer();
-                // validate id - id is a none-empty string
-                // validate title - title is a none-empty string
+                // validate id - id is a not-empty string
+                // validate title - title is a not-empty string
                 // validate collection - entries is an Array and its length equal to count
                 // todo more validation
                 if(("string" !== typeof category.id) || !category.id
                     || ("string" !== typeof category.title) || !category.title
                     || !category.collection
                     || !(category.collection.entries instanceof Array)
-                    || category.collection.count !== category.collection.entries.length)
-                {
+                    || category.collection.count !== category.collection.entries.length) {
                     result.status = 400;
                     deferred.reject(result);
                 } else {
@@ -357,13 +356,93 @@ angular.module("noteApp")
                 deferred.resolve(result);
                 return deferred.promise;
             },
-            addNote: function() {
+            addNote: function(note, categoryID) {
+                // note: {title, content}
+                var that = this;
+                var result = {
+                    status: 200,
+                    data: null
+                }
+                var deferred = $q.defer();
+                // validate categoryID - not-empty string
+                // validate note - title is a not-empty string
+                if("string" !== typeof categoryID || categoryID.length < 1) {
+                    result.status = 400;
+                    deferred.reject(result);
+                } else if("string" !== typeof note.title || note.title.length < 1) {
+                    result.status = 400;
+                    deferred.reject(result);
+                } else {
+                    var savedResult = that.__save(note);
+                    if(200 === savedResult.status) {
+                        result.data = savedResult.data;
+                        that.__addOneToCategory(savedResult.data.id, categoryID);
+                        // ToDo __addOne... status
+                        deferred.resolve(result);
+                    } else {
+                        result.status = 500;
+                        deferred.reject(result);
+                    }
+                }
+                return deferred.promise;
             },
             deleteNote: function(){
             },
-            queryNote: function() {
+            queryNote: function(id) {
+                var that = this;
+                var result = {
+                    status: 200,
+                    data: null
+                }
+                var deferred = $q.defer();
+                if("string" !== typeof id || !id) {
+                    result.status = 404;
+                    deferred.reject(result);
+                } else {
+                    var loadedResult = that.__load(id);
+                    if(200 === loadedResult.status) {
+                        result.data = loadedResult.data;
+                        deferred.resolve(result);
+                    } else {
+                        result.status = loadedResult.status;
+                        deferred.reject(result);
+                    }
+                }
+                return deferred.promise;
             },
-            updateNote: function() {
+            updateNote: function(note, currentCategoryID, originalCategoryID) {
+                // note: {id, title, content}
+                var that = this;
+                var result = {
+                    status: 200,
+                    data: null
+                }
+                var deferred = $q.defer();
+                // validate note - title is a not-empty string
+                if("string" !== note.id || note.id.length < 1
+                    || "string" !== note.title || note.title.length < 1) {
+                    result.status = 400;
+                    deferred.reject(result);
+                } else {
+                    var data = lodash.pick(note, ["id", "title", "content", "created", "modified"]);
+                    var savedResult = that.__save(data);
+                    if(200 === savedResult.status) {
+                        result.data = savedResult.data;
+                        if("string" === typeof currentCategoryID
+                            && "string" === typeof  originalCategoryID
+                            && currentCategoryID.length > 1
+                            && originalCategoryID.length > 1
+                            && currentCategoryID !== originalCategoryID) {
+                            that.__removeOneFromCategory(note.id, originalCategoryID);
+                            that.__addOneToCategory(note.id, currentCategoryID);
+                            // todo check result status
+                        }
+                        deferred.resolve(result);
+                    } else {
+                        result.status = 500;
+                        deferred.reject(result);
+                    }
+                }
             }
         }
         return storage;

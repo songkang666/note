@@ -6,9 +6,8 @@ angular.module("noteApp")
     .controller("categoriesAllController", ["$scope", "$state", "Service", "getAllCategories", function($scope, $state, Service, getAllCategories) {
         $scope.allCategories = getAllCategories.data;
         $scope.raw = {};
-
         $scope.show = function(category) {
-            $state.go("categories.detail", {id: category.id});
+            $state.go("category", {id: category.id});
             // todo go to category
         }
         $scope.create = function(event) {
@@ -31,9 +30,34 @@ angular.module("noteApp")
     }])
     .controller("categoryController", ["$scope", "$state", "Service", "getCategory", function($scope, $state, Service, getCategory) {
         $scope.category = getCategory.data;
+        $scope.createNote = function() {
+            var rawNote = {
+                title: "无标题笔记",
+                content: ""
+            }
+            Service.addNote(rawNote, $scope.category.id).then(function(res) {
+                $state.go("note", {categoryID: $scope.category.id, noteID: res.data.id});
+            }, function(res) {
+            });
+        }
+        $scope.showNote = function(note) {
+            $state.go("note", {categoryID: $scope.category.id, noteID: note.id});
+        }
     }])
-    .controller("createNoteController", ["$scope", "$state", "Service", "getCategory", function($scope, $state, Service, getCategory) {
+    .controller("noteController", ["$scope", "$state", "Service", "getCategory", "getNote", function($scope, $state, Service, getCategory, getNote) {
         $scope.category = getCategory.data;
-    }])
-    .controller("noteController", ["$scope", "$state", "Service", function($scope, $state, Service) {
+        $scope.note = getNote.data;
+        $scope.createNote = function() {
+            var rawNote = {
+                title: "无标题笔记",
+                content: ""
+            }
+            Service.addNote(rawNote, $scope.category.id).then(function(res) {
+                $state.go("note", {categoryID: $scope.category.id, noteID: res.data.id});
+            }, function(res) {
+            });
+        }
+        $scope.showNote = function(note) {
+            $state.go("note", {categoryID: $scope.category.id, noteID: note.id});
+        }
     }]);
