@@ -2,8 +2,11 @@
 /* ----------------------------------------------------------
  border color
 ---------------------------------------------------------- */
-$background-color-1: #ececec;
-$border-color-1: #ececec;
+$color-1: #ffffff;
+$color-2: #000000;
+$color-3: #c5e9f7;
+$color-4: #049fd9;
+$color-5: #ececec;
 
 /* ----------------------------------------------------------
   base css
@@ -28,7 +31,7 @@ body {
     width: 4px;
 }
 ::-webkit-scrollbar-thumb {
-    background-color: $background-color-1;
+    background-color: $color-5;
 }
 
 /* ----------------------------------------------------------
@@ -49,7 +52,7 @@ body {
 }
 
 .header {
-    border-bottom: 1px solid $border-color-1;
+    border-bottom: 1px solid $color-5;
 }
 
 .body {
@@ -61,7 +64,7 @@ body {
 }
 
 .footer {
-    border-top: 1px solid $border-color-1;
+    border-top: 1px solid $color-5;
 }
 
 .footer {
@@ -87,13 +90,13 @@ body {
             .category-list {
                 height: 100%;
                 width: 40%;
-                border-right: 1px solid $border-color-1;
+                border-right: 1px solid $color-5;
                 overflow-x: hidden;
                 overflow-y: scroll;
 
                 .category-list-title,
                 .category-item {
-                    border-bottom: 1px solid $border-color-1;
+                    border-bottom: 1px solid $color-5;
                     padding: 5px;
                 }
 
@@ -101,19 +104,62 @@ body {
                 .category-item {
                     cursor: pointer;
                 }
+
+                .category-item {
+                    &:hover {
+                        background-color: $color-3;
+                    }
+
+                    .active {
+                        background-color: $color-4;
+                        color: $color-1;
+                    }
+                }
+
+                .category-item .category-title {
+                }
+
+                .category-item .category-collection-count {
+                    font-size: 0.625rem;
+                    margin-top: 0.5rem;
+                }
             }
 
-            .edit-area {
+            .edit-area,
+            .note-list {
                 height: 100%;
                 width: 60%;
                 overflow-x: hidden;
                 overflow-y: scroll;
+            }
 
+            .edit-area {
                 .middle {
                     height: 100%;
                     width: 100%;
                     vertical-align: middle;
                     text-align: center;
+                }
+            }
+
+            .note-list {
+                .note-list-title,
+                .note-item {
+                    border-bottom: 1px solid $color-5;
+                    padding: 5px;
+                }
+
+                .note-list-title {
+                    color: $color-4;
+                    text-align: center;
+                }
+
+                .note-item {
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: $color-3;
+                    }
                 }
             }
         }

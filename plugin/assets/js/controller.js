@@ -6,11 +6,15 @@ angular.module("noteApp")
     .controller("categoriesAllController", ["$scope", "$state", "Service", "getAllCategories", function($scope, $state, Service, getAllCategories) {
         $scope.allCategories = getAllCategories.data;
         $scope.raw = {};
-        $scope.show = function(category) {
-            $state.go("category", {id: category.id});
-            // todo go to category
+
+        $scope.showCategory = function(category) {
+            Service.queryCategory(category.id).then(function(res) {
+                $scope.showCreate = false;
+                $scope.selectedCategory = res.data;
+            }, function(res) {
+            });
         }
-        $scope.create = function(event) {
+        $scope.createCategory = function(event) {
             var keyCode = event.keyCode;
             var title = $scope.raw.title;
             if(13 === keyCode) {
@@ -26,6 +30,9 @@ angular.module("noteApp")
                 }
                 return;
             }
+        }
+        $scope.showNote = function(note) {
+            $state.go("note", {categoryID: $scope.selectedCategory.id, noteID: note.id});
         }
     }])
     .controller("categoryController", ["$scope", "$state", "Service", "getCategory", function($scope, $state, Service, getCategory) {
