@@ -1,9 +1,9 @@
 angular.module("noteApp", ["ui.router", "ngLodash"])
     .config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
-        $stateProvider.state("index", {
+        $stateProvider.state("category", {
             url: '/',
-            templateUrl: "view/index.html",
-            controller: "indexController"
+            templateUrl: "view/category.html",
+            controller: "categoryController"
         });
     }]);

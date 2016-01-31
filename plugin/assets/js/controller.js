@@ -1,5 +1,5 @@
 angular.module("noteApp")
-    .controller("indexController", ["$scope", "localService", function($scope, Service) {
+    .controller("categoryController", ["$scope", "localService", function($scope, Service) {
         (function init() {
             Service.queryAllCategories().then(function(res) {
                 $scope.allCategories = res.data;
