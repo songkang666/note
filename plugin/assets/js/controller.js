@@ -1,13 +1,6 @@
 angular.module("noteApp")
-    .controller("categoryController", ["$scope", "localService", function($scope, Service) {
-        (function init() {
-            Service.queryAllCategories().then(function(res) {
-                $scope.allCategories = res.data;
-            }, function(res) {
-                // todo
-                console.log("load failure.");
-            });
-        })();
+    .controller("categoryController", ["$scope", "Service", "getAllCategories", function($scope, Service, getAllCategories) {
+        $scope.allCategories = getAllCategories.data;
 
         $scope.raw = {};
         $scope.create = function(event) {
