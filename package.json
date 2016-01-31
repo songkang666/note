@@ -1,5 +1,5 @@
 {
-	"name": "PK_ToDo_List",
+	"name": "PK_Note",
 	"version": "0.0.1",
 	"main": "Gruntfile.js",
 	"devDependencies": {
