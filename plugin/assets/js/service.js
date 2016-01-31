@@ -186,7 +186,7 @@ angular.module("noteApp")
                     loadedResult.data.entries.forEach(function(categoryID, index) {
                         var p = that.__load(categoryID);
                         if(200 === p.status) {
-                            var x = lodash.pick(p.data, ["id", "title", "created", "modified"]);
+                            var x = lodash.pick(p.data, ["id", "title", "created", "modified", "collection"]);
                             data.count += 1;
                             data.entries.push(x);
                         } else {
