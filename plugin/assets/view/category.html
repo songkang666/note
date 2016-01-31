@@ -1,0 +1,9 @@
+    <div class="note-list">
+        <div class="note-item btn btn-default">
+            <a ui-sref="createNote({id: category.id})">+</a>
+        </div>
+        <div ng-repeat="note in category.collection.entries" class="note-item" ui-sref="note({id: note.id});">
+            <h4>{{note.title}}</h4>
+            <span>{{note.content}}</span>
+        </div>
+    </div>

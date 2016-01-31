@@ -8,7 +8,7 @@ angular.module("noteApp")
         $scope.raw = {};
 
         $scope.show = function(category) {
-            $scope.$parent.title = category.title;
+            $state.go("categories.detail", {id: category.id});
             // todo go to category
         }
         $scope.create = function(event) {
@@ -28,4 +28,12 @@ angular.module("noteApp")
                 return;
             }
         }
+    }])
+    .controller("categoryController", ["$scope", "$state", "Service", "getCategory", function($scope, $state, Service, getCategory) {
+        $scope.category = getCategory.data;
+    }])
+    .controller("createNoteController", ["$scope", "$state", "Service", "getCategory", function($scope, $state, Service, getCategory) {
+        $scope.category = getCategory.data;
+    }])
+    .controller("noteController", ["$scope", "$state", "Service", function($scope, $state, Service) {
     }]);

@@ -22,8 +22,54 @@ angular.module("noteApp", ["ui.router", "ngLodash"])
                     }
                 },
                 controller: "categoriesAllController"
+            })
+            .state({
+                name: "categories.detail",
+                url: "/:id",
+                templateUrl: "view/category.html",
+                resolve: {
+                    Service: "localService",
+                    getCategory: function(Service, $stateParams) {
+                        return Service.queryCategory($stateParams.id);
+                    }
+                },
+                controller: "categoryController"
+            })
+            .state({
+                name: "createNote",
+                url: "/createNote/:id",
+                templateUrl: "view/createNote.html",
+                resolve: {
+                    Service: "localService",
+                    getCategory: function(Service, $q, $stateParams) {
+                        if("none" === $stateParams.id) {
+                            var deferred = $q.defer();
+                            console.log("yyy");
+                            deferred.resolve({
+                                status: 200,
+                                data: {
+                                    id: null,
+                                    title: null
+                                }
+                            });
+                            return deferred.promise;
+                        } else {
+                            return Service.queryCategory($stateParams.id);
+                        }
+                    }
+                },
+                controller: "createNoteController"
+            })
+            .state({
+                name: "note",
+                url: "/note/:id",
+                templateUrl: "view/note.html",
+                resolve: {
+                    Service: "localService",
+                    getNote: function(Service, $stateParams) {
+                        return Service.queryNote($stateParams.id);
+                    }
+                },
+                controller: "noteController"
             });
-            // .state("category.add", {
-            //     url: "/add"
-            // });
     }]);
