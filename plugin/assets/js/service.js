@@ -203,7 +203,7 @@ angular.module("noteApp")
                     }
                     localStorage.setItem(ID, JSON.stringify(p));
                     result.data = p;
-                    deferred.reject(result);
+                    deferred.resolve(result);
                 } else {
                     result.status = 400;
                     deferred.reject(result);
