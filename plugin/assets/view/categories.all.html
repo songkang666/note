@@ -2,7 +2,7 @@
         <div class="category-list-title">
             <div>
                 我的笔记
-                <span class="glyphicon glyphicon-plus pull-right {{showCreate?'rotate45':''}}" ng-init="showCreate=true" ng-click="showCreate=!showCreate"></span>
+                <span class="glyphicon glyphicon-plus pull-right {{showCreate?'rotate45':''}}" ng-init="showCreate=false" ng-click="showCreate=!showCreate"></span>
             </div>
         </div>
         <div ng-repeat="category in allCategories.entries" class="category-item clearfix" ng-click="showCategory(category);">
