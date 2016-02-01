@@ -1,6 +1,9 @@
     <div class="category-list">
-        <div class="category-list-title clearfix">
-            <span class="glyphicon glyphicon-plus pull-right" ng-init="showCreate=true" ng-click="showCreate=!showCreate"></span>
+        <div class="category-list-title">
+            <div>
+                我的笔记
+                <span class="glyphicon glyphicon-plus pull-right {{showCreate?'rotate45':''}}" ng-init="showCreate=true" ng-click="showCreate=!showCreate"></span>
+            </div>
         </div>
         <div ng-repeat="category in allCategories.entries" class="category-item clearfix" ng-click="showCategory(category);">
             <span class="category-title">{{category.title}}</span>
@@ -11,13 +14,23 @@
         <div class="middle">
             <input type="text" ng-model="raw.title" ng-keyup="createCategory($event);" ng-show="showCreate"/>
             <p class="description">
+                Enter a name to create a category.
+            </p>
+        </div>
+    </div>
+    <div class="edit-area" ng-show="!showCreate && !selectedCategory">
+        <div class="middle">
+            <p class="description">
                 Click "+" to create a category or click a category to show notes.
             </p>
         </div>
     </div>
-    <div class="note-list" ng-hide="showCreate">
-        <div class="note-list-title clearfix">
-            <h4>{{selectedCategory.title}}</h4>
+    <div class="note-list" ng-show="!showCreate && selectedCategory">
+        <div class="note-list-title">
+            <h4>
+                {{selectedCategory.title}}
+                <span class="glyphicon glyphicon-plus-sign pull-right" ng-click="createNote();"></span>
+            </h4>
         </div>
         <div ng-repeat="note in selectedCategory.collection.entries" class="note-item clearfix" ng-click="showNote(note);">
             <span class="note-title">{{note.title}}</span>

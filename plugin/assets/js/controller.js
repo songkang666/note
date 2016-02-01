@@ -31,6 +31,16 @@ angular.module("noteApp")
                 return;
             }
         }
+        $scope.createNote = function() {
+            var rawNote = {
+                title: "无标题笔记",
+                content: ""
+            }
+            Service.addNote(rawNote, $scope.selectedCategory.id).then(function(res) {
+                $state.go("note", {categoryID: $scope.selectedCategory.id, noteID: res.data.id});
+            }, function(res) {
+            });
+        }
         $scope.showNote = function(note) {
             $state.go("note", {categoryID: $scope.selectedCategory.id, noteID: note.id});
         }
@@ -54,17 +64,17 @@ angular.module("noteApp")
     .controller("noteController", ["$scope", "$state", "Service", "getCategory", "getNote", function($scope, $state, Service, getCategory, getNote) {
         $scope.category = getCategory.data;
         $scope.note = getNote.data;
-        $scope.createNote = function() {
-            var rawNote = {
-                title: "无标题笔记",
-                content: ""
-            }
-            Service.addNote(rawNote, $scope.category.id).then(function(res) {
-                $state.go("note", {categoryID: $scope.category.id, noteID: res.data.id});
-            }, function(res) {
-            });
-        }
-        $scope.showNote = function(note) {
-            $state.go("note", {categoryID: $scope.category.id, noteID: note.id});
-        }
+        // $scope.createNote = function() {
+        //     var rawNote = {
+        //         title: "无标题笔记",
+        //         content: ""
+        //     }
+        //     Service.addNote(rawNote, $scope.category.id).then(function(res) {
+        //         $state.go("note", {categoryID: $scope.category.id, noteID: res.data.id});
+        //     }, function(res) {
+        //     });
+        // }
+        // $scope.showNote = function(note) {
+        //     $state.go("note", {categoryID: $scope.category.id, noteID: note.id});
+        // }
     }]);

@@ -9,6 +9,18 @@ $color-4: #049fd9;
 $color-5: #ececec;
 
 /* ----------------------------------------------------------
+    @extend
+---------------------------------------------------------- */
+
+/* ----------------------------------------------------------
+  mixin @include
+---------------------------------------------------------- */
+@mixin ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ----------------------------------------------------------
   base css
 ---------------------------------------------------------- */
 html {
@@ -32,6 +44,10 @@ body {
 }
 ::-webkit-scrollbar-thumb {
     background-color: $color-5;
+}
+
+.rotate45 {
+    transform: rotate(45deg);
 }
 
 /* ----------------------------------------------------------
@@ -77,6 +93,9 @@ body {
   module css
 ---------------------------------------------------------- */
 .body {
+    border-left: 1px solid $color-5;
+    border-right: 1px solid $color-5;
+
     >div.ng-scope {
         height: 100%;
         width: 100%;
@@ -100,7 +119,11 @@ body {
                     padding: 5px;
                 }
 
-                .category-list-title > span,
+                .category-list-title span.glyphicon {
+                    cursor: pointer;
+                    font-size: 1.125rem;
+                }
+
                 .category-item {
                     cursor: pointer;
                 }
@@ -151,7 +174,20 @@ body {
 
                 .note-list-title {
                     color: $color-4;
-                    text-align: center;
+
+                    h4 {
+                        @include ellipsis;
+                        position: relative;
+                        padding-right: 30px;
+                    }
+
+                    span {
+                        font-size: 1.5rem;
+                        position: absolute;
+                        top: -3px;
+                        right: 2px;
+                        cursor: pointer;
+                    }
                 }
 
                 .note-item {
