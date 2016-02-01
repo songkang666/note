@@ -4,7 +4,9 @@ angular.module("noteApp")
             link: function(scope, element, attrs) {
                 scope.$watch(attrs.focusMe, function(value) {
                     if(value) {
-                        element[0].focus();
+                        $timeout(function() {
+                            element[0].focus();
+                        });
                     }
                 });
             }

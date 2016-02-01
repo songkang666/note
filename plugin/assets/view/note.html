@@ -1,5 +1,5 @@
     <div class="note-panel">
-        <div class="panel-header">
+        <div class="panel-header clearfix">
             <h4>
                 <span class="glyphicon glyphicon-menu-left back" ng-click="back();"></span>
                 <span class="title" ng-init="title_editable=false;" ng-hide="title_editable" ng-click="title_editable=true">{{note.title}}</span>
@@ -7,6 +7,6 @@
             </h4>
         </div>
         <div class="panel-body">
-            <textarea>{{note.content}}</textarea>
+            <textarea ng-model="note.content"></textarea>
         </div>
     </div>
