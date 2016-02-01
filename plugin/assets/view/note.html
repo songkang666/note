@@ -1,13 +1,12 @@
-    <div class="note-list">
-        <div class="note-item btn btn-default" ng-click="createNote();">
-            +
+    <div class="note-panel">
+        <div class="panel-header">
+            <h4>
+                <span class="glyphicon glyphicon-menu-left back" ng-click="back();"></span>
+                <span class="title" ng-init="title_editable=false;" ng-hide="title_editable" ng-click="title_editable=true">{{note.title}}</span>
+                <input type="text" class="title" ng-show="title_editable" focus-me="title_editable" ng-blur="title_editable=false" ng-model="note.title"/>
+            </h4>
         </div>
-        <div ng-repeat="item in category.collection.entries" class="note-item" ng-click="showNote(item);">
-            <h4>{{item.title}}</h4>
-            <span>{{item.content}}</span>
+        <div class="panel-body">
+            <textarea>{{note.content}}</textarea>
         </div>
-    </div>
-    <div>
-        <h3>{{note.title}}</h3>
-        <span>{{note.content}}</span>
     </div>

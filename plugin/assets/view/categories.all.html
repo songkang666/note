@@ -1,7 +1,7 @@
     <div class="category-list">
         <div class="category-list-title">
             <div>
-                我的笔记
+                分类
                 <span class="glyphicon glyphicon-plus pull-right {{showCreate?'rotate45':''}}" ng-init="showCreate=false" ng-click="showCreate=!showCreate"></span>
             </div>
         </div>
@@ -14,14 +14,14 @@
         <div class="middle">
             <input type="text" ng-model="raw.title" ng-keyup="createCategory($event);" ng-show="showCreate"/>
             <p class="description">
-                Enter a name to create a category.
+                输入名称并按回车可创建分类。
             </p>
         </div>
     </div>
     <div class="edit-area" ng-show="!showCreate && !selectedCategory">
         <div class="middle">
             <p class="description">
-                Click "+" to create a category or click a category to show notes.
+                点击左上角的"+"号可创建分类，或点选分类查看笔记。
             </p>
         </div>
     </div>

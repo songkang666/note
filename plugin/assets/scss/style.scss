@@ -122,6 +122,7 @@ body {
                 .category-list-title span.glyphicon {
                     cursor: pointer;
                     font-size: 1.125rem;
+                    color: $color-4;
                 }
 
                 .category-item {
@@ -160,7 +161,7 @@ body {
                 .middle {
                     height: 100%;
                     width: 100%;
-                    vertical-align: middle;
+                    padding-top: 150px;
                     text-align: center;
                 }
             }
@@ -173,7 +174,6 @@ body {
                 }
 
                 .note-list-title {
-                    color: $color-4;
 
                     h4 {
                         @include ellipsis;
@@ -183,6 +183,7 @@ body {
 
                     span {
                         font-size: 1.5rem;
+                        color: $color-4;
                         position: absolute;
                         top: -3px;
                         right: 2px;
@@ -195,6 +196,36 @@ body {
 
                     &:hover {
                         background-color: $color-3;
+                    }
+                }
+            }
+        }
+
+        .note-panel {
+            .panel-header {
+                text-align: center;
+
+                h4 {
+                    position: relative;
+
+                    span.back {
+                        font-size: 1.5rem;
+                        position: absolute;
+                        color: $color-4;
+                        cursor: pointer;
+                        left: 10px;
+                    }
+
+                    span.title {
+                        font-size: 1.5rem;
+                        cursor: text;
+                    }
+
+                    input.title {
+                        font-size: 22px;
+                        padding: 0;
+                        text-align: center;
+                        border: 1px solid $color-5;
                     }
                 }
             }
