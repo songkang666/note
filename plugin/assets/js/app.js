@@ -25,11 +25,13 @@ angular.module("noteApp", ["ui.router", "ngLodash"])
             })
             .state({
                 name: "category",
-                parent: "categories",
-                url: "/:id",
+                url: "/category/:id",
                 templateUrl: "view/category.html",
                 resolve: {
                     Service: "localService",
+                    getAllCategories: function(Service) {
+                        return Service.queryAllCategories();
+                    },
                     getCategory: function(Service, $stateParams) {
                         return Service.queryCategory($stateParams.id);
                     }

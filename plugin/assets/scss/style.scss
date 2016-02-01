@@ -134,7 +134,7 @@ body {
                         background-color: $color-3;
                     }
 
-                    .active {
+                    &.active {
                         background-color: $color-4;
                         color: $color-1;
                     }

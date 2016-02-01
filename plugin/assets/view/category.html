@@ -1,10 +1,33 @@
-    <div class="note-list">
-        <div class="note-item btn btn-default" ng-click="createNote()";>
-            +
+<div class="allCategories">
+    <div class="category-list">
+        <div class="category-list-title">
+            <div>
+                分类
+                <span class="glyphicon glyphicon-plus pull-right {{showCreate?'rotate45':''}}" ng-init="showCreate=false" ng-click="showCreate=!showCreate"></span>
+            </div>
         </div>
-        <div ng-repeat="item in category.collection.entries" class="note-item">
-            <a href="javascript:void(0);" ng-click="showNote(item);">
-                {{item.title}}
-            </a>
+        <div ng-repeat="category in allCategories.entries" class="category-item clearfix" ng-class="category.id === selectedCategory.id?'active': ''" ng-click="showCategory(category);">
+            <span class="category-title">{{category.title}}</span>
+            <span class="category-collection-count pull-right">({{category.collection.count}})</span>
         </div>
     </div>
+    <div class="edit-area" ng-show="showCreate">
+        <div class="middle">
+            <input type="text" ng-model="raw.title" ng-keyup="createCategory($event);" ng-show="showCreate"/>
+            <p class="description">
+                输入名称并按回车可创建分类。
+            </p>
+        </div>
+    </div>
+    <div class="note-list" ng-show="!showCreate">
+        <div class="note-list-title">
+            <h4>
+                {{selectedCategory.title}}
+                <span class="glyphicon glyphicon-plus-sign pull-right" ng-click="createNote();"></span>
+            </h4>
+        </div>
+        <div ng-repeat="note in selectedCategory.collection.entries" class="note-item clearfix" ng-click="showNote(note);">
+            <span class="note-title">{{note.title}}</span>
+        </div>
+    </div>
+</div>
