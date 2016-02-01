@@ -64,6 +64,13 @@ angular.module("noteApp")
     .controller("noteController", ["$scope", "$state", "Service", "getCategory", "getNote", function($scope, $state, Service, getCategory, getNote) {
         $scope.category = getCategory.data;
         $scope.note = getNote.data;
+        $scope.back = function() {
+            Service.updateNote($scope.note).then(function(res) {
+                $scope.note = res.data;
+                $state.go("categories.all");
+            }, function(res) {
+            });
+        }
         // $scope.createNote = function() {
         //     var rawNote = {
         //         title: "无标题笔记",

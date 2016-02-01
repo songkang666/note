@@ -419,8 +419,8 @@ angular.module("noteApp")
                 }
                 var deferred = $q.defer();
                 // validate note - title is a not-empty string
-                if("string" !== note.id || note.id.length < 1
-                    || "string" !== note.title || note.title.length < 1) {
+                if("string" !== typeof note.id || note.id.length < 1
+                    || "string" !== typeof note.title || note.title.length < 1) {
                     result.status = 400;
                     deferred.reject(result);
                 } else {
@@ -443,6 +443,7 @@ angular.module("noteApp")
                         deferred.reject(result);
                     }
                 }
+                return deferred.promise;
             }
         }
         return storage;
