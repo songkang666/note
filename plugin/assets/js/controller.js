@@ -16,7 +16,7 @@ angular.module("noteApp")
             if(13 === keyCode) {
                 if("string" === typeof title && title.length > 0) {
                     Service.addCategory(title).then(function(res) {
-                        $state.go("category", {id: category.id});
+                        $state.go("category", {id: res.data.id});
                     }, function(res) {
                         // todo
                         console.log("create category error.");
